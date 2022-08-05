@@ -1,21 +1,25 @@
-package ru.job4j.tasktomany;
+package ru.job4j.lazy;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "carmodel")
-public class CarModel {
+@Table(name = "model")
+public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @ManyToOne
+    @JoinColumn (name = "mark_id")
+    private Mark carMark;
 
-    public CarModel() {
+    public Model() {
     }
 
-    public CarModel(String name) {
+    public Model(String name, Mark carMark) {
         this.name = name;
+        this.carMark = carMark;
     }
 
     public int getId() {
@@ -42,7 +46,7 @@ public class CarModel {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CarModel carModel = (CarModel) o;
+        Model carModel = (Model) o;
         return id == carModel.id && Objects.equals(name, carModel.name);
     }
 
@@ -56,6 +60,7 @@ public class CarModel {
         final StringBuilder sb = new StringBuilder("Model{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
+        sb.append(", carMark=").append(carMark);
         sb.append('}');
         return sb.toString();
     }

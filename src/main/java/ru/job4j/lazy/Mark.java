@@ -1,21 +1,33 @@
-package ru.job4j.tasktomany;
+package ru.job4j.lazy;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "carmodel")
-public class CarModel {
+@Table (name = "car")
+public class Mark {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @OneToMany(mappedBy = "carMark")
+    private List<Model> modelList = new ArrayList<>();
 
-    public CarModel() {
+    public Mark() {
     }
 
-    public CarModel(String name) {
+    public Mark(String name) {
         this.name = name;
+    }
+
+    public List<Model> getModelList() {
+        return modelList;
+    }
+
+    public void setModelList(List<Model> modelList) {
+        this.modelList = modelList;
     }
 
     public int getId() {
@@ -42,8 +54,8 @@ public class CarModel {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CarModel carModel = (CarModel) o;
-        return id == carModel.id && Objects.equals(name, carModel.name);
+        Mark carMark = (Mark) o;
+        return id == carMark.id && Objects.equals(name, carMark.name);
     }
 
     @Override
@@ -53,7 +65,7 @@ public class CarModel {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Model{");
+        final StringBuilder sb = new StringBuilder("Mark{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append('}');

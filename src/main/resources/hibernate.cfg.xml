@@ -23,6 +23,10 @@
         <mapping class="ru.job4j.tasktomany.CarModel" />
         <mapping class="ru.job4j.manytomany.Author" />
         <mapping class="ru.job4j.manytomany.Book" />
+        <mapping class="ru.job4j.lazy.Category" />
+        <mapping class="ru.job4j.lazy.Task" />
+        <mapping class="ru.job4j.lazy.Mark" />
+        <mapping class="ru.job4j.lazy.Model" />
 
     </session-factory>
 </hibernate-configuration>
