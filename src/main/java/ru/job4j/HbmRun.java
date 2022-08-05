@@ -31,7 +31,7 @@ public class HbmRun {
             }
 
             Object result = session.createQuery("from Candidate k where k.id = :fId")
-                    .setParameter("fId", 1)
+                    .setParameter("fId", 2)
                     .uniqueResult();
             System.out.println(result);
 

@@ -17,5 +17,12 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="ru.job4j.Candidate" />
+        <mapping class="ru.job4j.many.Role" />
+        <mapping class="ru.job4j.many.User" />
+        <mapping class="ru.job4j.tasktomany.Car" />
+        <mapping class="ru.job4j.tasktomany.CarModel" />
+
+
+
     </session-factory>
 </hibernate-configuration>
