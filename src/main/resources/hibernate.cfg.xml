@@ -21,8 +21,8 @@
         <mapping class="ru.job4j.many.User" />
         <mapping class="ru.job4j.tasktomany.Car" />
         <mapping class="ru.job4j.tasktomany.CarModel" />
-
-
+        <mapping class="ru.job4j.manytomany.Author" />
+        <mapping class="ru.job4j.manytomany.Book" />
 
     </session-factory>
 </hibernate-configuration>
