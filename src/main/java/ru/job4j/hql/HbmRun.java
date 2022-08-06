@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.hql;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 
 public class HbmRun {
     public static void main(String[] args) {
+        Candidate rsl = null;
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -17,15 +18,23 @@ public class HbmRun {
             SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
             Session session = sessionFactory.openSession();
             session.beginTransaction();
-            Candidate candidateFirst = new Candidate("Jack", 2, 100000.0D);
-            Candidate candidateSecond = new Candidate("Pall", 3, 150000.0D);
-            Candidate candidateThird = new Candidate("Aleksander", 8, 300000.0D);
+            Vacancy vacancy1 = new Vacancy("Java Junior Developer");
+            Vacancy vacancy2 = new Vacancy("Java Middle Developer");
+            Vacancy vacancy3 = new Vacancy("Java Senior Developer");
+            session.save(vacancy1);
+            session.save(vacancy2);
+            session.save(vacancy3);
 
+            VacancyBase vacancyBase = new VacancyBase("Base of Vacancies");
+            vacancyBase.getVacancies().add(vacancy1);
+            vacancyBase.getVacancies().add(vacancy2);
+            vacancyBase.getVacancies().add(vacancy3);
+            session.save(vacancyBase);
+
+            Candidate candidateFirst = new Candidate("Jack", 2, 100000.0D, vacancyBase);
             session.save(candidateFirst);
-            session.save(candidateSecond);
-            session.save(candidateThird);
 
-            Query sessionQuery = session.createQuery("from ru.job4j.Candidate");
+            Query sessionQuery = session.createQuery("from Candidate");
             for (Object o : sessionQuery.list()) {
                 System.out.println(o);
             }
@@ -46,9 +55,15 @@ public class HbmRun {
                     .setParameter("fSal", 800_000.0D)
                     .setParameter("fId", 3).executeUpdate();
 
-            session.createQuery("delete Candidate k where k.id = :fId")
+            /**session.createQuery("delete Candidate k where k.id = :fId")
                     .setParameter("fId", 1)
-                    .executeUpdate();
+                    .executeUpdate();*/
+
+            rsl = session.createQuery("select distinct c from Candidate c "
+                            + "join fetch c.vacancyBase v "
+                            + "join fetch v.vacancies where c.id = :fId", Candidate.class)
+                    .setParameter("fId", 1)
+                    .uniqueResult();
 
             session.getTransaction().commit();
             session.close();
@@ -57,5 +72,6 @@ public class HbmRun {
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
         }
+        System.out.println(rsl);
     }
 }

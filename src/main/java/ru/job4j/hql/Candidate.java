@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.hql;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,14 +12,25 @@ public class Candidate {
     private String name;
     private int experience;
     private double salary;
+    @OneToOne (fetch = FetchType.LAZY)
+    private VacancyBase vacancyBase;
 
     public Candidate() {
     }
 
-    public Candidate(String name, int experience, double salary) {
+    public Candidate(String name, int experience, double salary, VacancyBase vacancyBase) {
         this.name = name;
         this.experience = experience;
         this.salary = salary;
+        this.vacancyBase = vacancyBase;
+    }
+
+    public VacancyBase getVacancy() {
+        return vacancyBase;
+    }
+
+    public void setVacancy(VacancyBase vacancyBase) {
+        this.vacancyBase = vacancyBase;
     }
 
     public int getId() {
@@ -78,6 +89,7 @@ public class Candidate {
         sb.append(", name='").append(name).append('\'');
         sb.append(", experience=").append(experience);
         sb.append(", salary=").append(salary);
+        sb.append(", vacancyBase=").append(vacancyBase);
         sb.append('}');
         return sb.toString();
     }
